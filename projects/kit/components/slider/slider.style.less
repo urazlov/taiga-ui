@@ -74,6 +74,11 @@
     height: @thumb-diameters[@@size];
     width: @thumb-diameters[@@size];
 
+    /* Increase vertical hitbox by trasparent paddings */
+    box-sizing: content-box;
+    background-clip: content-box;
+    padding: ((@hitbox - @thumb-diameters[@@size]) / 2) 0;
+
     :not(:disabled)& {
         cursor: ew-resize;
         transform: var(--slider-thumb-transform, @transform-noop);
@@ -98,8 +103,8 @@
 }
 
 /* Vertically centers thumb on the track (webkit only) */
-.vertically-align-thumb(@size) {
-    margin-top: (@track-height / 2) - (@thumb-diameters[@@size] / 2);
+.vertically-align-thumb() {
+    margin-top: (@track-height / 2) - (@hitbox / 2);
 }
 
 .thumb-ghost(@size) {
@@ -186,12 +191,12 @@
 
     &[data-size='m']::-webkit-slider-thumb {
         .customize-thumb(m);
-        .vertically-align-thumb(m);
+        .vertically-align-thumb();
     }
 
     &[data-size='s']::-webkit-slider-thumb {
         .customize-thumb(s);
-        .vertically-align-thumb(s);
+        .vertically-align-thumb();
     }
 
     &[data-size='m']::-moz-range-thumb {

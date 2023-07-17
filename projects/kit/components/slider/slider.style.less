@@ -102,20 +102,24 @@
     margin-top: (@track-height / 2) - (@thumb-diameters[@@size] / 2);
 }
 
+.thumb-ghost(@size) {
+    position: absolute;
+    top: ((@hitbox - @thumb-diameters[@@size]) / 2);
+    left: calc(var(--tui-slider-fill-percentage) - var(--tui-slider-fill-ratio) * @thumb-diameters[@@size]);
+    width: @thumb-diameters[@@size];
+    height: @thumb-diameters[@@size];
+    border-radius: 50%;
+    transform: var(--slider-thumb-transform, @transform-noop);
+}
+
 .thumb-overlay(@size) {
     &:not(:disabled):before {
         .transition(~'transform, opacity');
+        .thumb-ghost(@size);
         content: '';
-        position: absolute;
-        top: ((@hitbox - @thumb-diameters[@@size]) / 2);
-        left: calc(var(--tui-slider-fill-percentage) - var(--tui-slider-fill-ratio) * @thumb-diameters[@@size]);
         cursor: ew-resize;
         background: @thumb-color;
         opacity: 0;
-        width: @thumb-diameters[@@size];
-        height: @thumb-diameters[@@size];
-        border-radius: 50%;
-        transform: var(--slider-thumb-transform, @transform-noop);
     }
 
     &:active:before {

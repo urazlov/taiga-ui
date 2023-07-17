@@ -14,6 +14,8 @@
 
 @hitbox: 1rem;
 
+@transform-noop: scale(1);
+
 @active-thumb-scale-factor: {
     @s: 1.5;
     @m: 1.333;
@@ -74,6 +76,7 @@
 
     :not(:disabled)& {
         cursor: ew-resize;
+        transform: var(--slider-thumb-transform, @transform-noop);
 
         &:hover {
             background-color: var(--tui-primary-hover);
@@ -85,7 +88,7 @@
 
         &:hover,
         :active& {
-            transform: scale(@active-thumb-scale-factor[@@size]);
+            transform: var(--slider-thumb-transform, @transform-noop) scale(@active-thumb-scale-factor[@@size]);
         }
     }
 
@@ -101,21 +104,23 @@
 
 .thumb-overlay(@size) {
     &:not(:disabled):before {
-        .transition(transform);
+        .transition(~'transform, opacity');
         content: '';
         position: absolute;
         top: ((@hitbox - @thumb-diameters[@@size]) / 2);
         left: calc(var(--tui-slider-fill-percentage) - var(--tui-slider-fill-ratio) * @thumb-diameters[@@size]);
         cursor: ew-resize;
         background: @thumb-color;
-        opacity: 0.2;
+        opacity: 0;
         width: @thumb-diameters[@@size];
         height: @thumb-diameters[@@size];
         border-radius: 50%;
+        transform: var(--slider-thumb-transform, @transform-noop);
     }
 
     &:active:before {
-        transform: scale(2.33);
+        opacity: 0.2;
+        transform: var(--slider-thumb-transform, @transform-noop) scale(2.33);
     }
 }
 
